@@ -71,9 +71,16 @@
                         </p>
                     </div>
 
+                    <div class="text-[13px] text-[#6B6F7A]">
+                        <p>Dibuat oleh</p>
+                        <a href="{{ route('users.show', $campaign->user) }}" class="font-medium text-[#23252F] hover:underline">
+                            {{ $campaign->user->name }}
+                        </a>
+                    </div>
+
                     <div class="pt-4 border-t border-[#E7E0B8] space-y-4">
                         <p class="text-[13px] font-medium text-[#23252F]">Pilih Nominal Donasi</p>
-                        
+
                         <div class="grid grid-cols-3 gap-2">
                             <button
                                 type="button"
@@ -133,5 +140,3 @@
         </main>
     </body>
 </html>
-
-

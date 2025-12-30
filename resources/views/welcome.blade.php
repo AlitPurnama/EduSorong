@@ -41,11 +41,11 @@
                         </h1>
                     </div>
                     <div class="flex flex-wrap items-center gap-3 text-[15px]">
-                        <button class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#9DAE81] text-[#23252F] font-medium shadow-sm hover:bg-[#8FA171] transition">
+                        <a href="{{ route('campaigns.index') }}" class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#9DAE81] text-[#23252F] font-medium shadow-sm hover:bg-[#8FA171] transition">
                             <x-lucide-heart class="w-4 h-4 text-[#23252F]" />
                             <span>Mulai Donasi</span>
-                        </button>
-                        <button class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-[#E7E0B8] text-[#23252F] hover:bg-[#f9f3db] transition shadow-sm">
+                        </a>
+                        <button id="open-video-modal" class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-[#E7E0B8] text-[#23252F] hover:bg-[#f9f3db] transition shadow-sm">
                             <span class="w-6 h-6 rounded-full border border-[#E7E0B8] flex items-center justify-center bg-[#FFF7D6]">
                                 <x-lucide-play class="w-3.5 h-3.5 text-[#23252F] fill-[#23252F]" />
                             </span>
@@ -64,7 +64,7 @@
             </section>
 
             {{-- CARA KERJA --}}
-            <section class="rounded-[32px] bg-[#2E3242] px-6 md:px-12 py-10 text-[14px] text-white shadow-[0_18px_40px_rgba(0,0,0,0.25)]">
+            <section id="cara-kerja" class="rounded-[32px] bg-[#2E3242] px-6 md:px-12 py-10 text-[14px] text-white shadow-[0_18px_40px_rgba(0,0,0,0.25)]">
                 <div class="text-center space-y-2 mb-8">
                     <h2 class="text-xl md:text-2xl font-semibold tracking-tight">Cara Kerja EduSorong</h2>
                     <p class="text-[14px] text-[#D4D7E5] max-w-2xl mx-auto leading-relaxed">
@@ -143,7 +143,7 @@
             </section>
 
             {{-- TENTANG KAMI --}}
-            <section class="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-10 items-center bg-[#FFF7E5] rounded-[32px] px-6 md:px-10 py-9 text-[14px]">
+            <section id="tentang-kami" class="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-10 items-center bg-[#FFF7E5] rounded-[32px] px-6 md:px-10 py-9 text-[14px]">
                 <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-[#EEC9D0] border border-[#E0B6BD] shadow-[0_18px_40px_rgba(0,0,0,0.16)] flex items-center justify-center">
                     <img
                         src="{{ asset('images/placeholder.jpg') }}"
@@ -170,6 +170,66 @@
                     </p>
                 </div>
             </section>
-            </main>
+        </main>
+
+        {{-- VIDEO MODAL --}}
+        <div id="video-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
+            <div class="relative w-full max-w-2xl">
+                <button id="close-video-modal" class="absolute -top-10 right-0 text-white hover:text-white/80">
+                    <x-lucide-x class="w-8 h-8" />
+                </button>
+                <div class="aspect-video">
+                    <iframe
+                        id="youtube-video"
+                        class="w-full h-full rounded-lg shadow-xl"
+                        src=""
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const videoModal = document.getElementById('video-modal');
+                const openButton = document.getElementById('open-video-modal');
+                const closeButton = document.getElementById('close-video-modal');
+                const videoFrame = document.getElementById('youtube-video');
+
+                const videoUrl = "https://www.youtube.com/embed/4wjSNqvI-ic?si=i2LtamAi1BJQQRFF&autoplay=1&rel=0";
+
+                function openModal() {
+                    videoFrame.src = videoUrl;
+                    videoModal.classList.remove('hidden');
+                    videoModal.classList.add('flex');
+                }
+
+                function closeModal() {
+                    videoFrame.src = "";
+                    videoModal.classList.add('hidden');
+                    videoModal.classList.remove('flex');
+                }
+
+                openButton.addEventListener('click', openModal);
+                closeButton.addEventListener('click', closeModal);
+
+                // Close modal when clicking on the background overlay
+                videoModal.addEventListener('click', function(event) {
+                    if (event.target === videoModal) {
+                        closeModal();
+                    }
+                });
+
+                // Close modal with Escape key
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && !videoModal.classList.contains('hidden')) {
+                        closeModal();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

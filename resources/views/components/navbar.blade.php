@@ -28,10 +28,10 @@
             <a href="{{ url('/kampanye') }}" class="{{ $linkBaseClasses }} {{ $isActive('kampanye') }}">
                 Kampanye
             </a>
-            <a href="#cara-kerja" class="{{ $linkBaseClasses }} {{ $isActive('cara-kerja') }}">
+            <a href="{{ url('/#cara-kerja') }}" class="{{ $linkBaseClasses }} {{ $isActive('cara-kerja') }}">
                 Cara Kerja
             </a>
-            <a href="#tentang-kami" class="{{ $linkBaseClasses }} {{ $isActive('tentang-kami') }}">
+            <a href="{{ url('/#tentang-kami') }}" class="{{ $linkBaseClasses }} {{ $isActive('tentang-kami') }}">
                 Tentang Kami
             </a>
         </nav>
@@ -59,6 +59,12 @@
                         class="hidden absolute right-0 mt-2 w-40 rounded-xl bg-white border border-[#E0E3F0] shadow-[0_12px_30px_rgba(0,0,0,0.18)] py-2 text-[13px] z-20"
                         data-profile-dropdown
                     >
+                        <a
+                            href="{{ route('users.show', ['user' => Auth::user()]) }}"
+                            class="block px-4 py-2 hover:bg-[#F5F5FB] text-[#23252F]"
+                        >
+                            Profil Saya
+                        </a>
                         <a
                             href="{{ route('dashboard') }}"
                             class="block px-4 py-2 hover:bg-[#F5F5FB] text-[#23252F]"
@@ -98,5 +104,3 @@
         @endauth
     </div>
 </header>
-
-

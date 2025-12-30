@@ -13,7 +13,7 @@ class UserSettingsController extends Controller
 {
     public function show()
     {
-        return view('settings.index', ['user' => Auth::user()]);
+        return view("settings.index", ["user" => Auth::user()]);
     }
 
     public function updateProfile(UpdateProfileRequest $request)
@@ -22,32 +22,44 @@ class UserSettingsController extends Controller
         $data = $request->validated();
 
         // Handle photo upload
-        if ($request->hasFile('photo')) {
+        if ($request->hasFile("photo")) {
             // Delete old photo if exists
             if ($user->photo) {
-                Storage::disk('public')->delete($user->photo);
+                Storage::disk("public")->delete($user->photo);
             }
-            $data['photo'] = $request->file('photo')->store('profiles', 'public');
+            $data["photo"] = $request
+                ->file("photo")
+                ->store("profiles", "public");
         }
 
         $user->update($data);
 
-        return redirect()->route('settings.show')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()
+            ->route("settings.show")
+            ->with("success", "Profil berhasil diperbarui.");
     }
 
     public function updatePassword(UpdatePasswordRequest $request)
     {
         $user = Auth::user();
         $user->update([
-            'password' => Hash::make($request->validated()['password']),
+            "password" => Hash::make($request->validated()["password"]),
         ]);
 
-        return redirect()->route('settings.show')->with('success', 'Password berhasil diubah.');
+        return redirect()
+            ->route("settings.show")
+            ->with("success", "Password berhasil diubah.");
     }
 
     public function showKtpVerification()
     {
-        return view('settings.ktp-verification');
+        return view("settings.ktp-verification");
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view("profile.show", compact("user"));
     }
 }
-
