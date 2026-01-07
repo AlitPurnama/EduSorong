@@ -55,7 +55,8 @@ class CampaignManagementTest extends TestCase
             'target_amount' => 1000000,
             'excerpt' => 'Ringkasan',
             'description' => 'Deskripsi kampanye',
-            'image' => UploadedFile::fake()->image('cover.jpg'),
+            // Avoid UploadedFile::fake()->image() because it requires the GD extension.
+            'image' => UploadedFile::fake()->create('cover.jpg', 50, 'image/jpeg'),
         ];
 
         $this->post(route('dashboard.campaigns.store'), $payload)

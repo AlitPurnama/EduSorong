@@ -33,7 +33,8 @@ class UserSettingsTest extends TestCase
             'email' => $user->email,
             'phone' => '08123456789',
             'bio' => 'Bio singkat',
-            'photo' => UploadedFile::fake()->image('avatar.jpg'),
+            // Avoid UploadedFile::fake()->image() because it requires the GD extension.
+            'photo' => UploadedFile::fake()->create('avatar.jpg', 50, 'image/jpeg'),
         ]);
 
         $response->assertRedirect(route('settings.show'));
@@ -73,7 +74,8 @@ class UserSettingsTest extends TestCase
         $response = $this->post(route('settings.ktp.submit'), [
             'ktp_number' => '1234567890123456',
             'ktp_name' => 'Nama KTP',
-            'ktp_photo' => UploadedFile::fake()->image('ktp.jpg'),
+            // Avoid UploadedFile::fake()->image() because it requires the GD extension.
+            'ktp_photo' => UploadedFile::fake()->create('ktp.jpg', 50, 'image/jpeg'),
         ]);
 
         $response->assertRedirect(route('settings.ktp.show'));
