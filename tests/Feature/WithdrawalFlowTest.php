@@ -89,7 +89,8 @@ class WithdrawalFlowTest extends TestCase
         // Can upload evidence
         $response = $this->post(route('withdrawal.evidence.store', $withdrawal), [
             'description' => 'Kuitansi pembelian',
-            'evidence' => UploadedFile::fake()->image('evidence.jpg'),
+            // Avoid UploadedFile::fake()->image() because it requires the GD extension.
+            'evidence' => UploadedFile::fake()->create('evidence.jpg', 50, 'image/jpeg'),
             'used_at' => now()->format('Y-m-d'),
         ]);
 
