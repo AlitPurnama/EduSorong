@@ -6,6 +6,7 @@
     'organization' => 'Nama Yayasan',
     'image' => null,
     'href' => null,
+    'isVerified' => false,
 ])
 
 @php
@@ -79,7 +80,12 @@
         </div>
         <div class="pt-1 border-t border-[#F0E8C8] flex items-center gap-2 text-[12px] text-[#6B6F7A]">
             <span class="w-2 h-2 rounded-full bg-[#D5D8E2]"></span>
-            <span class="truncate">{{ $organization }}</span>
+            <span class="truncate flex-1">{{ $organization }}</span>
+            @if($isVerified)
+                <span class="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-medium whitespace-nowrap">
+                    ✓ Terverifikasi
+                </span>
+            @endif
         </div>
     </div>
 </a>

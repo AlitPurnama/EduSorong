@@ -31,29 +31,52 @@
                     </p>
                 </div>
 
-                <div class="bg-[#2E3242] rounded-full border border-[#1f2432] px-4 py-2">
-                    <div class="grid gap-4 text-left md:grid-cols-[2fr_1fr_1fr]">
-                        <input
-                            type="text"
-                            placeholder="Cari nama siswa atau kampanye"
-                            class="h-11 rounded-full px-4 text-[13px] text-[#23252F] bg-white border border-[#D0D3DD] outline-none focus:ring-2 focus:ring-[#9DAE81]"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Lokasi"
-                            class="h-11 rounded-full px-4 text-[13px] text-[#23252F] bg-white border border-[#D0D3DD] outline-none focus:ring-2 focus:ring-[#9DAE81]"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Jenjang"
-                            class="h-11 rounded-full px-4 text-[13px] text-[#23252F] bg-white border border-[#D0D3DD] outline-none focus:ring-2 focus:ring-[#9DAE81]"
-                        />
+                <form method="GET" action="{{ route('campaigns.index') }}" class="bg-[#2E3242] rounded-full border border-[#1f2432] px-4 py-2">
+                    <div class="flex gap-3 items-center">
+                        <div class="flex-1 relative">
+                            <input
+                                type="text"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="Cari berdasarkan judul atau lokasi kampanye"
+                                class="w-full h-11 rounded-full px-4 pl-12 text-[13px] text-[#23252F] bg-white border border-[#D0D3DD] outline-none focus:ring-2 focus:ring-[#9DAE81]"
+                            />
+                            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6F7A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <button
+                            type="submit"
+                            class="h-11 px-6 rounded-full bg-[#9DAE81] text-white text-[13px] font-medium hover:bg-[#8FA171] transition-colors whitespace-nowrap"
+                        >
+                            Cari
+                        </button>
+                        @if(request('search'))
+                            <a
+                                href="{{ route('campaigns.index') }}"
+                                class="h-11 px-4 rounded-full bg-white/10 text-white text-[13px] font-medium hover:bg-white/20 transition-colors whitespace-nowrap flex items-center gap-2"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                Reset
+                            </a>
+                        @endif
                     </div>
-                </div>
+                </form>
             </section>
 
             {{-- Campaign grid --}}
             <section class="space-y-6">
+                @if(request('search'))
+                    <div class="text-[13px] text-[#6B6F7A]">
+                        Menampilkan hasil pencarian untuk "<span class="font-medium text-[#23252F]">{{ request('search') }}</span>"
+                        @if($campaigns->total() > 0)
+                            ({{ $campaigns->total() }} kampanye ditemukan)
+                        @endif
+                    </div>
+                @endif
+
                 <div class="grid md:grid-cols-3 gap-6">
                     @forelse ($campaigns as $campaign)
                         <x-campaign-card
@@ -62,13 +85,30 @@
                             :title="$campaign->title"
                             :raised="$campaign->raised_amount"
                             :target="$campaign->target_amount"
-                            :organization="$campaign->organization ?? 'Nama Yayasan'"
+                            :organization="$campaign->organization_name"
                             :image="$campaign->image_path ? asset('storage/' . $campaign->image_path) : null"
+                            :isVerified="$campaign->hasVerifiedOrganization()"
                         />
                     @empty
-                        @for ($i = 0; $i < 6; $i++)
-                            <x-campaign-card />
-                        @endfor
+                        <div class="col-span-3 text-center py-12">
+                            <div class="space-y-3">
+                                <svg class="w-16 h-16 mx-auto text-[#D5D8E2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="text-[14px] text-[#6B6F7A]">
+                                    @if(request('search'))
+                                        Tidak ada kampanye yang ditemukan untuk "{{ request('search') }}"
+                                    @else
+                                        Belum ada kampanye yang tersedia
+                                    @endif
+                                </p>
+                                @if(request('search'))
+                                    <a href="{{ route('campaigns.index') }}" class="inline-block text-[13px] text-[#9DAE81] hover:underline">
+                                        Lihat semua kampanye
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
                     @endforelse
                 </div>
 

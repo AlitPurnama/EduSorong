@@ -25,6 +25,7 @@
     </head>
     <body class="bg-[#FFF7D6] text-[#23252F] font-sans text-[14px]">
         <x-navbar active="beranda" />
+        
         <main class="max-w-5xl mx-auto px-4 lg:px-4 pt-10 pb-20 space-y-16">
             {{-- HERO --}}
             <section class="grid md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-12 items-center">
@@ -121,6 +122,7 @@
             </section>
 
             {{-- SISWA BUTUH BANTUANMU --}}
+            @if($campaigns->isNotEmpty())
             <section class="space-y-6 bg-white rounded-[32px] px-6 md:px-10 py-9 shadow-[0_18px_40px_rgba(0,0,0,0.12)]">
                 <div class="flex items-center justify-between gap-4 text-[15px]">
                     <div class="space-y-1">
@@ -136,11 +138,21 @@
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-5 text-[13px]">
-                    @for ($i = 0; $i < 3; $i++)
-                        <x-campaign-card />
-                    @endfor
+                    @foreach ($campaigns as $campaign)
+                        <x-campaign-card
+                            :href="route('campaigns.show', $campaign)"
+                            :location="$campaign->location ?? 'Sorong Utara'"
+                            :title="$campaign->title"
+                            :raised="$campaign->raised_amount"
+                            :target="$campaign->target_amount"
+                            :organization="$campaign->organization_name"
+                            :image="$campaign->image_path ? asset('storage/' . $campaign->image_path) : null"
+                            :isVerified="$campaign->hasVerifiedOrganization()"
+                        />
+                    @endforeach
                 </div>
             </section>
+            @endif
 
             {{-- TENTANG KAMI --}}
             <section id="tentang-kami" class="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-10 items-center bg-[#FFF7E5] rounded-[32px] px-6 md:px-10 py-9 text-[14px]">
@@ -171,6 +183,23 @@
                 </div>
             </section>
         </main>
+
+        <!-- Running Text Donation Feed (Bottom) -->
+        <div id="donation-feed" class="bg-[#9DAE81] text-white py-2 overflow-hidden relative hidden">
+            <div class="flex items-center gap-2">
+                <div class="flex-shrink-0 px-4 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+                    </svg>
+                    <span class="text-[12px] font-semibold whitespace-nowrap">Donasi Terbaru:</span>
+                </div>
+                <div class="flex-1 overflow-hidden">
+                    <div id="donation-feed-content" class="flex gap-6">
+                        <!-- Content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {{-- VIDEO MODAL --}}
         <div id="video-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">

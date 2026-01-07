@@ -61,14 +61,30 @@
                             />
                         </div>
                         <div class="space-y-1 text-[13px]">
-                            <label for="organization" class="font-medium text-[#2E3242]">Nama Yayasan/Organisasi</label>
-                            <input
-                                id="organization"
-                                name="organization"
-                                type="text"
-                                value="{{ old('organization') }}"
+                            <label for="organization_verification_id" class="font-medium text-[#2E3242]">Organisasi/Yayasan</label>
+                            <select
+                                id="organization_verification_id"
+                                name="organization_verification_id"
                                 class="h-10 w-full rounded-[10px] border border-[#E0E3F0] px-3 text-[13px] outline-none focus:ring-2 focus:ring-[#9DAE81]"
-                            />
+                            >
+                                <option value="">Pilih Organisasi (Opsional - Perorangan)</option>
+                                @foreach($approvedOrganizations ?? [] as $org)
+                                    <option value="{{ $org->id }}" {{ old('organization_verification_id') == $org->id ? 'selected' : '' }}>
+                                        {{ $org->organization_name }} ✓ Terverifikasi
+                                    </option>
+                                @endforeach
+                            </select>
+                            <p class="text-[11px] text-[#8C8F99] mt-1">
+                                Pilih organisasi yang sudah terverifikasi. Jika tidak dipilih, kampanye akan dikelola sebagai perorangan.
+                            </p>
+                            @if(($approvedOrganizations ?? collect())->isEmpty())
+                                <p class="text-[11px] text-[#F59E0B] mt-1">
+                                    Belum ada organisasi terverifikasi. <a href="{{ route('organization.create') }}" class="underline">Verifikasi organisasi</a> untuk menampilkan badge terverifikasi.
+                                </p>
+                            @endif
+                            @error('organization_verification_id')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="space-y-1 text-[13px]">
                             <label for="image" class="font-medium text-[#2E3242]">Gambar Kampanye</label>

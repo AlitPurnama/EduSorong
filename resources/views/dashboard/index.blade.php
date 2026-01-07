@@ -26,17 +26,49 @@
                         Kelola kampanye yang Anda buat.
                     </p>
                 </div>
-                <a
-                    href="{{ route('dashboard.campaigns.create') }}"
-                    class="px-4 py-2 rounded-full bg-[#9DAE81] text-white text-[13px] font-semibold shadow-[0_8px_18px_rgba(0,0,0,0.16)] hover:bg-[#8FA171] transition-colors"
-                >
-                    + Buat Kampanye
-                </a>
+                @if($user->ktp_verification_status === 'approved')
+                    <a
+                        href="{{ route('dashboard.campaigns.create') }}"
+                        class="px-4 py-2 rounded-full bg-[#9DAE81] text-white text-[13px] font-semibold shadow-[0_8px_18px_rgba(0,0,0,0.16)] hover:bg-[#8FA171] transition-colors"
+                    >
+                        + Buat Kampanye
+                    </a>
+                @else
+                    <a
+                        href="{{ route('settings.ktp.show') }}"
+                        class="px-4 py-2 rounded-full bg-yellow-500 text-white text-[13px] font-semibold shadow-[0_8px_18px_rgba(0,0,0,0.16)] hover:bg-yellow-600 transition-colors"
+                    >
+                        Verifikasi KTP
+                    </a>
+                @endif
             </div>
 
             @if (session('status'))
                 <div class="px-4 py-2 rounded-md bg-[#ECFDF3] text-[13px] text-[#166534] border border-[#BBF7D0]">
                     {{ session('status') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="px-4 py-2 rounded-md bg-[#FEF2F2] text-[13px] text-[#991B1B] border border-[#FECACA]">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if($user->ktp_verification_status !== 'approved')
+                <div class="px-4 py-3 rounded-md bg-yellow-50 text-[13px] text-yellow-800 border border-yellow-200">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <p class="font-medium mb-1">Verifikasi KTP Diperlukan</p>
+                            <p class="text-[12px] text-yellow-700">
+                                Anda harus verifikasi KTP terlebih dahulu sebelum dapat membuat kampanye. 
+                                <a href="{{ route('settings.ktp.show') }}" class="underline font-medium">Klik di sini untuk verifikasi KTP</a>.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             @endif
 
@@ -82,20 +114,22 @@
                                         Lihat detail
                                     </a>
 
-                                    <form
-                                        action="{{ route('dashboard.campaigns.destroy', $campaign) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus kampanye ini?');"
-                                    >
-                                        @csrf
-                                        @method('DELETE')
-                                        <button
-                                            type="submit"
+                                    @php
+                                        $hasDeletionRequest = $campaign->deletionRequests()->where('status', 'pending')->exists();
+                                    @endphp
+                                    
+                                    @if($hasDeletionRequest)
+                                        <span class="text-[12px] text-yellow-600 font-medium">
+                                            Menunggu Review
+                                        </span>
+                                    @else
+                                        <a
+                                            href="{{ route('dashboard.campaigns.request-deletion', $campaign) }}"
                                             class="text-[12px] text-red-500 hover:text-red-600"
                                         >
                                             Hapus
-                                        </button>
-                                    </form>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

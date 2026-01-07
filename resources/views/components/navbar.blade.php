@@ -77,6 +77,14 @@
                         >
                             Pengaturan
                         </a>
+                        @if(Auth::user()->isAdmin())
+                            <a
+                                href="{{ route('admin.dashboard') }}"
+                                class="block px-4 py-2 hover:bg-[#F5F5FB] text-[#9DAE81] font-medium"
+                            >
+                                Admin Dashboard
+                            </a>
+                        @endif
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button
