@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\KtpVerificationApprovedMail;
+use App\Mail\KtpVerificationRejectedMail;
 use App\Models\Campaign;
 use App\Models\OrganizationVerification;
 use App\Models\WithdrawalRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -254,6 +257,16 @@ class AdminController extends Controller
             ]);
         });
 
+        // Send approval email
+        try {
+            \Log::info('Attempting to send KTP approval email to: ' . $user->email);
+            Mail::to($user->email)->send(new KtpVerificationApprovedMail($user));
+            \Log::info('KTP approval email sent successfully to: ' . $user->email);
+        } catch (\Exception $e) {
+            \Log::error('Failed to send KTP approval email to ' . $user->email . ': ' . $e->getMessage());
+            \Log::error('Exception trace: ' . $e->getTraceAsString());
+        }
+
         return redirect()->route('admin.ktp-verifications')
             ->with('success', 'Verifikasi KTP berhasil disetujui.');
     }
@@ -276,6 +289,16 @@ class AdminController extends Controller
                 'ktp_verified' => false,
             ]);
         });
+
+        // Send rejection email
+        try {
+            \Log::info('Attempting to send KTP rejection email to: ' . $user->email);
+            Mail::to($user->email)->send(new KtpVerificationRejectedMail($user, $request->rejection_reason));
+            \Log::info('KTP rejection email sent successfully to: ' . $user->email);
+        } catch (\Exception $e) {
+            \Log::error('Failed to send KTP rejection email to ' . $user->email . ': ' . $e->getMessage());
+            \Log::error('Exception trace: ' . $e->getTraceAsString());
+        }
 
         return redirect()->route('admin.ktp-verifications')
             ->with('success', 'Verifikasi KTP ditolak.');

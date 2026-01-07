@@ -217,6 +217,83 @@
                     </form>
                 </section>
 
+                {{-- Email Verification Section --}}
+                <section class="bg-white rounded-2xl border border-[#E7E0B8] shadow-[0_8px_20px_rgba(0,0,0,0.08)] p-6">
+                    <h2 class="text-[20px] font-semibold mb-4">Verifikasi Email</h2>
+
+                    <div class="space-y-4">
+                        @if($user->email_verified_at)
+                            <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-[14px] font-medium text-green-800">Email Terverifikasi</p>
+                                        <p class="text-[13px] text-green-700 mt-1">
+                                            Email Anda <strong>{{ $user->email }}</strong> telah terverifikasi pada {{ $user->email_verified_at->format('d F Y, H:i') }} WIB.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-[14px] font-medium text-yellow-800">Email Belum Terverifikasi</p>
+                                        <p class="text-[13px] text-yellow-700 mt-1">
+                                            Email Anda <strong>{{ $user->email }}</strong> belum terverifikasi. Silakan cek email Anda untuk link verifikasi atau kirim ulang email verifikasi.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form action="{{ route('settings.email.resend-verification') }}" method="POST" class="space-y-4">
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="px-6 py-2.5 rounded-full bg-[#9DAE81] text-white font-semibold shadow-[0_8px_18px_rgba(0,0,0,0.16)] hover:bg-[#8FA171] transition-colors"
+                                >
+                                    Kirim Ulang Email Verifikasi
+                                </button>
+                            </form>
+                        @endif
+
+                        <div class="pt-4 border-t border-[#E7E0B8]">
+                            <h3 class="text-[16px] font-semibold mb-3">Ubah Email</h3>
+                            <form action="{{ route('settings.email.update') }}" method="POST" class="space-y-4">
+                                @csrf
+                                @method('PUT')
+                                
+                                <div>
+                                    <label for="new_email" class="block text-[13px] font-medium text-[#23252F] mb-2">Email Baru</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="new_email"
+                                        value="{{ old('email', $user->email) }}"
+                                        required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-[#E7E0B8] bg-white text-[14px] focus:outline-none focus:ring-2 focus:ring-[#9DAE81] focus:border-transparent"
+                                    >
+                                    @error('email')
+                                        <p class="text-[12px] text-red-600 mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="px-6 py-2.5 rounded-full bg-[#9DAE81] text-white font-semibold shadow-[0_8px_18px_rgba(0,0,0,0.16)] hover:bg-[#8FA171] transition-colors"
+                                >
+                                    Ubah Email
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
                 {{-- KTP Verification Section --}}
                 <section class="bg-white rounded-2xl border border-[#E7E0B8] shadow-[0_8px_20px_rgba(0,0,0,0.08)] p-6">
                     <h2 class="text-[20px] font-semibold mb-4">Verifikasi KTP</h2>
@@ -410,6 +487,82 @@
                             </div>
                         @endif
                     </div>
+                </section>
+
+                {{-- Account Deletion Section --}}
+                <section class="bg-white rounded-2xl border border-red-200 shadow-[0_8px_20px_rgba(0,0,0,0.08)] p-6">
+                    <h2 class="text-[20px] font-semibold mb-4 text-red-600">Hapus Akun</h2>
+                    
+                    @php
+                        $userCampaigns = $user->campaigns;
+                        $hasCampaigns = $userCampaigns->count() > 0;
+                        $hasDonations = $hasCampaigns && $userCampaigns->sum('raised_amount') > 0;
+                    @endphp
+
+                    @if($hasDonations)
+                        <div class="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-[14px] font-medium text-red-800">Tidak Dapat Menghapus Akun</p>
+                                    <p class="text-[13px] text-red-700 mt-1">
+                                        Anda tidak dapat menghapus akun karena memiliki kampanye yang sudah menerima donasi. Silakan hubungi admin untuk bantuan lebih lanjut.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @elseif($hasCampaigns)
+                        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg mb-4">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-[14px] font-medium text-yellow-800">Tidak Dapat Menghapus Akun</p>
+                                    <p class="text-[13px] text-yellow-700 mt-1">
+                                        Anda tidak dapat menghapus akun karena memiliki kampanye. Silakan hapus semua kampanye terlebih dahulu.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <p class="text-[13px] text-[#6B6F7A] mb-4">
+                            Setelah menghapus akun Anda, semua data akan dihapus secara permanen dan tidak dapat dikembalikan. 
+                            Anda akan menerima email konfirmasi untuk memverifikasi penghapusan akun.
+                        </p>
+                        
+                        <form action="{{ route('settings.account.delete') }}" method="POST" id="deleteAccountForm" class="space-y-4">
+                            @csrf
+                            @method('DELETE')
+                            
+                            <div>
+                                <label for="delete_password" class="block text-[13px] font-medium text-[#23252F] mb-2">
+                                    Konfirmasi dengan Password
+                                </label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="delete_password"
+                                    required
+                                    class="w-full px-4 py-2.5 rounded-lg border border-red-300 bg-white text-[14px] focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                    placeholder="Masukkan password Anda"
+                                >
+                                @error('password')
+                                    <p class="text-[12px] text-red-600 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <button
+                                type="submit"
+                                onclick="return confirm('Apakah Anda yakin ingin menghapus akun? Email konfirmasi akan dikirim ke email Anda.')"
+                                class="px-6 py-2.5 rounded-full bg-red-600 text-white font-semibold shadow-[0_8px_18px_rgba(0,0,0,0.16)] hover:bg-red-700 transition-colors"
+                            >
+                                Minta Hapus Akun
+                            </button>
+                        </form>
+                    @endif
                 </section>
             </div>
         </main>

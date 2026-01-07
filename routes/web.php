@@ -45,6 +45,13 @@ Route::post("/login", [AuthController::class, "login"])->name("auth.login");
 Route::post("/register", [AuthController::class, "register"])->name(
     "auth.register",
 );
+// Email verification route (public, accessible via email link even when logged in)
+Route::get("/verify-email/{token}", [AuthController::class, "verifyEmail"])->name("auth.verify-email");
+// Account deletion confirmation route (public, accessible via email link)
+Route::get("/pengaturan/akun/hapus/{token}", [
+    UserSettingsController::class,
+    "confirmAccountDeletion",
+])->name("settings.account.delete-confirm");
 Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 
 // Dashboard & campaign management
@@ -81,6 +88,18 @@ Route::middleware("auth")->group(function () {
         UserSettingsController::class,
         "updatePassword",
     ])->name("settings.password.update");
+    Route::post("/pengaturan/email/resend-verification", [
+        UserSettingsController::class,
+        "resendEmailVerification",
+    ])->name("settings.email.resend-verification");
+    Route::put("/pengaturan/email", [
+        UserSettingsController::class,
+        "updateEmail",
+    ])->name("settings.email.update");
+    Route::delete("/pengaturan/akun", [
+        UserSettingsController::class,
+        "deleteAccount",
+    ])->name("settings.account.delete");
     Route::get("/pengaturan/ktp", [
         UserSettingsController::class,
         "showKtpVerification",

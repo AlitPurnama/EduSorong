@@ -32,6 +32,8 @@ class User extends Authenticatable
         'ktp_verification_status',
         'ktp_rejection_reason',
         'role',
+        'email_verification_token',
+        'account_deletion_token',
     ];
 
     /**
