@@ -9,6 +9,12 @@ class WithdrawalEvidence extends Model
 {
     use HasFactory;
 
+    /**
+     * Eloquent by default would infer 'withdrawal_evidence' (evidence is uncountable).
+     * Explicitly set the correct table name matching the migration.
+     */
+    protected $table = 'withdrawal_evidences';
+
     protected $fillable = [
         'withdrawal_request_id',
         'description',
