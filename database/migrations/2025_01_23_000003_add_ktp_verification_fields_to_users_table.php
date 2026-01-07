@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('ktp_number')->nullable()->after('ktp_verified');
+            // Do not reference 'ktp_verified' here because it may not exist yet.
+            // Let the database append these columns at the end for portability.
+            $table->string('ktp_number')->nullable();
             $table->string('ktp_name')->nullable()->after('ktp_number');
             $table->string('ktp_photo')->nullable()->after('ktp_name');
             $table->enum('ktp_verification_status', ['none', 'pending', 'approved', 'rejected'])->default('none')->after('ktp_photo');
