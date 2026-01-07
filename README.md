@@ -1,59 +1,381 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# EduSorong
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Platform crowdfunding untuk pendidikan yang memungkinkan pengguna membuat kampanye penggalangan dana, melakukan donasi, dan mengelola penarikan dana dengan integrasi payment gateway Midtrans.
 
-## About Laravel
+## 📋 Tentang EduSorong
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+EduSorong adalah platform crowdfunding yang fokus pada penggalangan dana untuk keperluan pendidikan. Platform ini memungkinkan pengguna untuk:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Membuat dan mengelola kampanye penggalangan dana
+- Melakukan donasi dengan berbagai metode pembayaran (QRIS, E-Wallet, Virtual Account)
+- Mengelola penarikan dana dengan sistem verifikasi
+- Verifikasi identitas (KTP) dan organisasi untuk meningkatkan kredibilitas
+- Dashboard admin untuk mengelola verifikasi dan approval
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fitur Utama
 
-## Learning Laravel
+### 🔐 Autentikasi
+- Registrasi pengguna baru
+- Login/Logout
+- Validasi email unik
+- Validasi password
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 📢 Manajemen Kampanye
+- Buat kampanye baru dengan data lengkap (judul, deskripsi, target dana, lokasi, gambar)
+- Lihat daftar kampanye publik
+- Lihat detail kampanye (progress donasi, update, form donasi)
+- Buat dan hapus update kampanye
+- Request penghapusan kampanye (dengan approval admin)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 💰 Donasi dan Pembayaran
+- Donasi dengan berbagai metode pembayaran:
+  - **QRIS** (Quick Response Code Indonesian Standard)
+  - **E-Wallet** (OVO, DANA, LINKAJA)
+  - **Virtual Account** (BCA)
+- Validasi minimum donasi (Rp 10.000)
+- Donasi anonim (guest dan user terdaftar)
+- Tracking status pembayaran
+- Integrasi webhook Midtrans untuk notifikasi pembayaran
+- Feed donasi real-time (running text)
 
-## Laravel Sponsors
+### 👤 Manajemen Profil dan Pengaturan
+- Update profil (nama, email, bio, nomor telepon, foto)
+- Ubah password dengan validasi password saat ini
+- Verifikasi KTP (upload foto KTP dan data)
+- Lihat status verifikasi KTP
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🏢 Verifikasi Organisasi
+- Request verifikasi organisasi dengan dokumen
+- Lihat status verifikasi organisasi
+- Organisasi terverifikasi dapat digunakan untuk kampanye
 
-### Premium Partners
+### 💸 Manajemen Penarikan Dana
+- Request penarikan dana (hanya jika kampanye mencapai ≥ 80% target)
+- Upload bukti penggunaan dana
+- Lihat status penarikan (pending, approved, rejected, completed)
+- Workflow approval oleh admin
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 👨‍💼 Fitur Admin
+- Dashboard admin dengan overview semua request
+- Approve/Reject verifikasi organisasi
+- Approve/Reject verifikasi KTP
+- Approve/Reject request penarikan dana
+- Complete request penarikan setelah verifikasi bukti
+- Approve/Reject request penghapusan kampanye
+- Verifikasi bukti penarikan dana
 
-## Contributing
+## 🛠️ Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Backend
+- **PHP 8.2+**
+- **Laravel 12**
+- **SQLite** (default, dapat diganti dengan MySQL/PostgreSQL)
 
-## Code of Conduct
+### Frontend
+- **Tailwind CSS 4**
+- **Vite** (build tool)
+- **Blade** (templating engine)
+- **Lucide Icons** (icon library)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Payment Gateway
+- **Midtrans** (QRIS, E-Wallet, Virtual Account)
 
-## Security Vulnerabilities
+### Development Tools
+- **Laravel Pint** (code style)
+- **PHPUnit** (testing)
+- **Laravel Pail** (log viewer)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📋 Requirements
 
-## License
+Sebelum memulai, pastikan sistem Anda memiliki:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **PHP** >= 8.2
+- **Composer** (PHP package manager)
+- **Node.js** >= 18.x dan **npm** atau **pnpm**
+- **SQLite** (atau MySQL/PostgreSQL untuk production)
+
+## 🚀 Instalasi dan Setup
+
+### 1. Clone Repository
+
+```bash
+git clone <repository-url>
+cd EduSorong
+```
+
+### 2. Install Dependencies
+
+```bash
+# Install PHP dependencies
+composer install
+
+# Install Node.js dependencies
+npm install
+# atau jika menggunakan pnpm
+pnpm install
+```
+
+### 3. Setup Environment
+
+```bash
+# Copy file .env.example ke .env
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+```
+
+### 4. Konfigurasi Database
+
+Edit file `.env` dan sesuaikan konfigurasi database:
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=/absolute/path/to/database/database.sqlite
+```
+
+Atau untuk MySQL/PostgreSQL:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=edusorong
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 5. Setup Database
+
+```bash
+# Buat database SQLite (jika menggunakan SQLite)
+touch database/database.sqlite
+
+# Jalankan migration
+php artisan migrate
+
+# (Opsional) Jalankan seeder jika ada
+php artisan db:seed
+```
+
+### 6. Konfigurasi Midtrans
+
+Edit file `.env` dan tambahkan konfigurasi Midtrans:
+
+```env
+# Midtrans Sandbox Configuration
+MIDTRANS_SERVER_KEY=SB-Mid-server-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MIDTRANS_IS_PRODUCTION=false
+```
+
+**Cara mendapatkan Midtrans Server Key & Client Key (Sandbox):**
+1. Login ke [Midtrans Dashboard](https://dashboard.midtrans.com)
+2. Pilih **Settings** → **Access Keys**
+3. Copy **Server Key** (yang dimulai dengan `SB-Mid-server-`)
+4. Copy **Client Key** (yang dimulai dengan `SB-Mid-client-`)
+5. Paste ke `.env`
+
+**Catatan:** 
+- Pastikan menggunakan **Sandbox** key untuk development
+- `MIDTRANS_IS_PRODUCTION` harus `false` untuk sandbox mode
+- Untuk production, ubah ke `true` dan gunakan production keys
+
+### 7. Setup Storage Link
+
+```bash
+# Buat symbolic link untuk storage
+php artisan storage:link
+```
+
+### 8. Build Assets
+
+```bash
+# Build assets untuk production
+npm run build
+
+# Atau jalankan dalam mode development (watch mode)
+npm run dev
+```
+
+### 9. Jalankan Server
+
+```bash
+# Jalankan Laravel development server
+php artisan serve
+
+# Aplikasi akan berjalan di http://localhost:8000
+```
+
+### 10. Setup Notification URL (untuk Midtrans)
+
+Untuk testing notification di local development, gunakan **ngrok**:
+
+```bash
+# Install ngrok (macOS)
+brew install ngrok
+
+# Start ngrok
+ngrok http 8000
+```
+
+Copy HTTPS URL dari ngrok (contoh: `https://abc123.ngrok.io`), lalu:
+
+1. Login ke [Midtrans Dashboard](https://dashboard.midtrans.com)
+2. Pilih **Settings** → **Configuration**
+3. Masukkan **Payment Notification URL**:
+   ```
+   https://your-ngrok-url.ngrok.io/notification/midtrans
+   ```
+4. Save configuration
+
+## 📁 Struktur Project
+
+```
+EduSorong/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/        # Controller untuk handling request
+│   │   ├── Middleware/         # Custom middleware
+│   │   └── Requests/           # Form request validation
+│   ├── Models/                 # Eloquent models
+│   ├── Policies/               # Authorization policies
+│   ├── Providers/              # Service providers
+│   ├── Services/               # Business logic services
+│   └── View/
+│       └── Components/         # Blade components
+├── config/                     # Konfigurasi aplikasi
+├── database/
+│   ├── migrations/             # Database migrations
+│   └── seeders/                # Database seeders
+├── public/                     # Public assets
+├── resources/
+│   ├── css/                    # CSS files
+│   ├── js/                     # JavaScript files
+│   └── views/                  # Blade templates
+├── routes/
+│   └── web.php                 # Web routes
+├── storage/                    # Storage untuk file uploads
+└── tests/                      # Test files
+```
+
+## 🔧 Konfigurasi Tambahan
+
+### Menjadi Admin
+
+Untuk membuat user menjadi admin, edit database langsung atau buat seeder:
+
+```php
+// Di database seeder atau tinker
+$user = User::where('email', 'admin@example.com')->first();
+$user->role = 'admin';
+$user->save();
+```
+
+### Konfigurasi File Upload
+
+Pastikan folder storage memiliki permission yang tepat:
+
+```bash
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+```
+
+## 🧪 Testing
+
+```bash
+# Jalankan semua test
+php artisan test
+
+# Jalankan test dengan coverage
+php artisan test --coverage
+```
+
+## 📝 Scripts yang Tersedia
+
+### Composer Scripts
+
+```bash
+# Setup lengkap (install dependencies, generate key, migrate, build assets)
+composer setup
+
+# Development mode (server + queue + logs + vite)
+composer dev
+
+# Run tests
+composer test
+```
+
+### NPM Scripts
+
+```bash
+# Build assets untuk production
+npm run build
+
+# Development mode dengan hot reload
+npm run dev
+```
+
+## 🔐 Security
+
+- Password di-hash menggunakan bcrypt
+- CSRF protection untuk semua form
+- Validasi input pada semua endpoint
+- File upload validation
+- Signature verification untuk Midtrans notification (opsional)
+
+## 📚 Dokumentasi Tambahan
+
+- [MIDTRANS_INTEGRATION.md](./MIDTRANS_INTEGRATION.md) - Dokumentasi integrasi Midtrans
+- [USE_CASE_DOCUMENTATION.md](./USE_CASE_DOCUMENTATION.md) - Dokumentasi use case
+- [blackbox_testing.tex](./blackbox_testing.tex) - Dokumentasi hasil testing
+
+## 🐛 Troubleshooting
+
+### Error: "Invalid server key"
+- Pastikan `MIDTRANS_SERVER_KEY` sudah di-set di `.env`
+- Pastikan menggunakan Sandbox key (dimulai dengan `SB-Mid-server-`)
+- Clear config cache: `php artisan config:clear`
+
+### Error: "Notification not received"
+- Pastikan notification URL accessible dari internet (gunakan ngrok untuk local)
+- Check log: `storage/logs/laravel.log`
+- Pastikan notification URL sudah di-setup di Midtrans Dashboard
+
+### Error: "Storage link not found"
+```bash
+php artisan storage:link
+```
+
+### Error: "Permission denied" pada storage
+```bash
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+```
+
+## 🤝 Contributing
+
+1. Fork repository
+2. Buat feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+## 📄 License
+
+Project ini menggunakan [MIT License](https://opensource.org/licenses/MIT).
+
+## 👥 Authors
+
+- **Tim Development EduSorong**
+
+## 🙏 Acknowledgments
+
+- Laravel Framework
+- Midtrans Payment Gateway
+- Tailwind CSS
+- Semua kontributor dan pengguna platform
+
+---
+
+**EduSorong** - Bergabunglah dalam Gerakan Kebaikan untuk Masa Depan Pendidikan yang Lebih Cerah 🎓
