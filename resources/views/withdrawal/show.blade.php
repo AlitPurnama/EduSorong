@@ -77,7 +77,7 @@
                     <div>
                         <p class="text-[12px] text-[#6B6F7A] mb-1">Tanggal Request</p>
                         <p class="text-[14px] font-medium text-[#23252F]">
-                            {{ $withdrawal->created_at->format('d M Y H:i') }}
+                            <span data-utc-time="{{ $withdrawal->created_at->toIso8601String() }}" data-format="date-time">{{ $withdrawal->created_at->format('d M Y H:i') }}</span>
                         </p>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                     <div class="pt-4 border-t border-[#E7E0B8]">
                         <p class="text-[12px] text-[#6B6F7A]">
                             Direview oleh <strong>{{ $withdrawal->reviewer->name ?? 'Admin' }}</strong> 
-                            pada {{ $withdrawal->reviewed_at->format('d M Y H:i') }}
+                            pada <span data-utc-time="{{ $withdrawal->reviewed_at->toIso8601String() }}" data-format="date-time">{{ $withdrawal->reviewed_at->format('d M Y H:i') }}</span>
                         </p>
                     </div>
                 @endif
@@ -128,7 +128,7 @@
                 @if($withdrawal->completed_at)
                     <div class="pt-4 border-t border-[#E7E0B8]">
                         <p class="text-[12px] text-[#6B6F7A]">
-                            Diselesaikan pada {{ $withdrawal->completed_at->format('d M Y H:i') }}
+                            Diselesaikan pada <span data-utc-time="{{ $withdrawal->completed_at->toIso8601String() }}" data-format="date-time">{{ $withdrawal->completed_at->format('d M Y H:i') }}</span>
                         </p>
                     </div>
                 @endif
@@ -166,7 +166,7 @@
                                                 </span>
                                                 @if($evidence->used_at)
                                                     <span class="text-[12px] text-[#6B6F7A]">
-                                                        Digunakan: {{ $evidence->used_at->format('d M Y') }}
+                                                        Digunakan: <span data-utc-time="{{ $evidence->used_at->toIso8601String() }}" data-format="date-only">{{ $evidence->used_at->format('d M Y') }}</span>
                                                     </span>
                                                 @endif
                                             </div>

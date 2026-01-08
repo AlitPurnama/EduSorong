@@ -110,8 +110,8 @@
                                         @endif
                                         @if($verification->verified_at)
                                             <p class="text-[11px] text-[#6B6F7A] mt-2">
-                                                Diverifikasi oleh {{ $verification->verifier->name ?? 'Admin' }} 
-                                                pada {{ $verification->verified_at->format('d M Y H:i') }}
+                                                Diverifikasi oleh {{ $verification->verifier->name ?? 'Admin' }}
+                                                pada <span data-utc-time="{{ $verification->verified_at->toIso8601String() }}" data-format="date-time">{{ $verification->verified_at->format('d M Y H:i') }}</span>
                                             </p>
                                         @endif
                                     </div>

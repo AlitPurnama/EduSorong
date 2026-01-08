@@ -231,7 +231,7 @@
                                     <div>
                                         <p class="text-[14px] font-medium text-green-800">Email Terverifikasi</p>
                                         <p class="text-[13px] text-green-700 mt-1">
-                                            Email Anda <strong>{{ $user->email }}</strong> telah terverifikasi pada {{ $user->email_verified_at->format('d F Y, H:i') }} WIB.
+                                            Email Anda <strong>{{ $user->email }}</strong> telah terverifikasi pada <span data-utc-time="{{ $user->email_verified_at->toIso8601String() }}" data-format="full">{{ $user->email_verified_at->format('d F Y, H:i') }}</span>.
                                         </p>
                                     </div>
                                 </div>

@@ -268,7 +268,7 @@
                                                 <p class="text-[13px] text-[#50545F]">{{ $withdrawal->purpose }}</p>
                                             @endif
                                             <p class="text-[12px] text-[#6B6F7A] mt-1">
-                                                Dicairkan pada {{ $withdrawal->created_at->format('d M Y') }}
+                                                Dicairkan pada <span data-utc-time="{{ $withdrawal->created_at->toIso8601String() }}" data-format="date-only">{{ $withdrawal->created_at->format('d M Y') }}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -295,7 +295,7 @@
                                                                     </span>
                                                                     @if($evidence->used_at)
                                                                         <span class="text-[11px] text-[#6B6F7A]">
-                                                                            Digunakan: {{ $evidence->used_at->format('d M Y') }}
+                                                                            Digunakan: <span data-utc-time="{{ $evidence->used_at->toIso8601String() }}" data-format="date-only">{{ $evidence->used_at->format('d M Y') }}</span>
                                                                         </span>
                                                                     @endif
                                                                 </div>
@@ -330,7 +330,7 @@
                                         <img src="{{ asset('storage/' . $update->image_path) }}" alt="Update image" class="w-full max-w-md rounded-lg mb-2">
                                     @endif
                                     <p class="text-[11px] text-[#6B6F7A]">
-                                        {{ $update->created_at->format('d M Y H:i') }}
+                                        <span data-utc-time="{{ $update->created_at->toIso8601String() }}" data-format="date-time">{{ $update->created_at->format('d M Y H:i') }}</span>
                                     </p>
                                 </div>
                             @endforeach
@@ -365,7 +365,11 @@
                                                 {{ ucfirst(str_replace('_', ' ', $payment->payment_method ?? '-')) }}
                                             </td>
                                             <td class="px-4 py-3 text-[#6B6F7A]">
-                                                {{ $payment->paid_at ? $payment->paid_at->format('d M Y') : $payment->created_at->format('d M Y') }}
+                                                @if($payment->paid_at)
+                                                    <span data-utc-time="{{ $payment->paid_at->toIso8601String() }}" data-format="date-only">{{ $payment->paid_at->format('d M Y') }}</span>
+                                                @else
+                                                    <span data-utc-time="{{ $payment->created_at->toIso8601String() }}" data-format="date-only">{{ $payment->created_at->format('d M Y') }}</span>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

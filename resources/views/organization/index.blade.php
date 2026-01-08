@@ -156,9 +156,9 @@
                                     @if($verification->verified_at)
                                         <p class="text-[11px] text-[#6B6F7A] mt-3">
                                             @if($verification->status === 'approved')
-                                                Diverifikasi pada {{ $verification->verified_at->format('d M Y H:i') }}
+                                                Diverifikasi pada <span data-utc-time="{{ $verification->verified_at->toIso8601String() }}" data-format="date-time">{{ $verification->verified_at->format('d M Y H:i') }}</span>
                                             @else
-                                                Ditinjau pada {{ $verification->verified_at->format('d M Y H:i') }}
+                                                Ditinjau pada <span data-utc-time="{{ $verification->verified_at->toIso8601String() }}" data-format="date-time">{{ $verification->verified_at->format('d M Y H:i') }}</span>
                                             @endif
                                         </p>
                                     @endif

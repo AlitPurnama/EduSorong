@@ -59,7 +59,7 @@
                     <img
                         src="{{ asset('images/placeholder.jpg') }}"
                         alt="Ilustrasi EduSorong"
-                        class="max-w-sm w-full aspect-[4/5] object-cover rounded-[18px] shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-[#E4D6B3] rotate-3 hover:rotate-0 transition-transform duration-300"
+                        class="max-w-sm w-full aspect-[4/5] object-cover rounded-[18px] shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-[#E4D6B3] md:rotate-3 md:hover:rotate-0 transition-transform duration-300"
                     />
                 </div>
             </section>

@@ -97,7 +97,7 @@
                                         @endif
                                         @if($user->updated_at && $user->ktp_verification_status !== 'none')
                                             <p class="text-[11px] text-[#6B6F7A] mt-2">
-                                                Terakhir diupdate: {{ $user->updated_at->format('d M Y H:i') }}
+                                                Terakhir diupdate: <span data-utc-time="{{ $user->updated_at->toIso8601String() }}" data-format="date-time">{{ $user->updated_at->format('d M Y H:i') }}</span>
                                             </p>
                                         @endif
                                     </div>

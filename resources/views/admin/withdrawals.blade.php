@@ -102,13 +102,13 @@
                                         @endif
                                         @if($withdrawal->reviewed_at)
                                             <p class="text-[11px] text-[#6B6F7A] mt-2">
-                                                Direview oleh {{ $withdrawal->reviewer->name ?? 'Admin' }} 
-                                                pada {{ $withdrawal->reviewed_at->format('d M Y H:i') }}
+                                                Direview oleh {{ $withdrawal->reviewer->name ?? 'Admin' }}
+                                                pada <span data-utc-time="{{ $withdrawal->reviewed_at->toIso8601String() }}" data-format="date-time">{{ $withdrawal->reviewed_at->format('d M Y H:i') }}</span>
                                             </p>
                                         @endif
                                         @if($withdrawal->completed_at)
                                             <p class="text-[11px] text-[#6B6F7A] mt-2">
-                                                Diselesaikan pada {{ $withdrawal->completed_at->format('d M Y H:i') }}
+                                                Diselesaikan pada <span data-utc-time="{{ $withdrawal->completed_at->toIso8601String() }}" data-format="date-time">{{ $withdrawal->completed_at->format('d M Y H:i') }}</span>
                                             </p>
                                         @endif
 
@@ -134,7 +134,7 @@
                                                                         </span>
                                                                         @if($evidence->used_at)
                                                                             <span class="text-[11px] text-[#6B6F7A]">
-                                                                                Digunakan: {{ $evidence->used_at->format('d M Y') }}
+                                                                                Digunakan: <span data-utc-time="{{ $evidence->used_at->toIso8601String() }}" data-format="date-only">{{ $evidence->used_at->format('d M Y') }}</span>
                                                                             </span>
                                                                         @endif
                                                                     </div>

@@ -43,7 +43,7 @@
                     <div class="space-y-1">
                         <h2 class="text-2xl font-bold text-[#2E3242]">{{ $user->name }}</h2>
                         <p class="text-[15px] text-[#6B6F7A]">
-                            Bergabung sejak {{ $user->created_at->translatedFormat('d F Y') }}
+                            Bergabung sejak <span data-utc-time="{{ $user->created_at->toIso8601String() }}" data-format="date-only">{{ $user->created_at->translatedFormat('d F Y') }}</span>
                         </p>
                         @if($user->ktp_verified)
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium border border-green-200">
