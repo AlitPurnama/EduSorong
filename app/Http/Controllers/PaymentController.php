@@ -409,15 +409,29 @@ class PaymentController extends Controller
         // Sync with Midtrans
         if ($payment->midtrans_order_id) {
             $result = $this->midtransService->getTransactionStatus($payment->midtrans_order_id);
-            
+
             if ($result['success']) {
                 $midtransData = $result['data'];
-                $payment->update([
+                $newStatus = $this->mapMidtransStatus($midtransData['transaction_status'] ?? $payment->status);
+                $transactionStatus = $midtransData['transaction_status'] ?? $payment->transaction_status;
+
+                $updateData = [
                     'midtrans_transaction_id' => $midtransData['transaction_id'] ?? $payment->midtrans_transaction_id,
-                    'status' => $this->mapMidtransStatus($midtransData['transaction_status'] ?? $payment->status),
-                    'transaction_status' => $midtransData['transaction_status'] ?? $payment->transaction_status,
+                    'status' => $newStatus,
+                    'transaction_status' => $transactionStatus,
                     'notification_data' => $midtransData,
-                ]);
+                ];
+
+                // If payment is now paid but was not paid before, update campaign raised_amount
+                if (($newStatus === 'paid' || $transactionStatus === 'settlement') && $payment->status !== 'paid') {
+                    $updateData['paid_at'] = now();
+
+                    // Update campaign raised amount
+                    $campaign = $payment->campaign;
+                    $campaign->increment('raised_amount', $payment->amount);
+                }
+
+                $payment->update($updateData);
             }
         }
 
