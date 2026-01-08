@@ -156,9 +156,9 @@
 
             {{-- TENTANG KAMI --}}
             <section id="tentang-kami" class="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-10 items-center bg-[#FFF7E5] rounded-[32px] px-6 md:px-10 py-9 text-[14px]">
-                <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-[#EEC9D0] border border-[#E0B6BD] shadow-[0_18px_40px_rgba(0,0,0,0.16)] flex items-center justify-center">
+                <div class="aspect-4/3 rounded-2xl overflow-hidden bg-[#EEC9D0] border border-[#E0B6BD] shadow-[0_18px_40px_rgba(0,0,0,0.16)] flex items-center justify-center">
                     <img
-                        src="{{ asset('images/placeholder.jpg') }}"
+                        src="{{ asset('images/RumahBelajar.png') }}"
                         alt="Ilustrasi tentang EduSorong"
                         class="w-full h-full object-cover"
                     />
@@ -187,7 +187,7 @@
         <!-- Running Text Donation Feed (Bottom) -->
         <div id="donation-feed" class="bg-[#9DAE81] text-white py-2 overflow-hidden relative hidden">
             <div class="flex items-center gap-2">
-                <div class="flex-shrink-0 px-4 flex items-center gap-2">
+                <div class="shrink-0 px-4 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
                     </svg>
