@@ -76,23 +76,23 @@
                 <div class="grid md:grid-cols-4 gap-6 md:gap-10 text-[13px]">
                     <div class="flex flex-col items-center text-center gap-3">
                         <div class="w-14 h-14 rounded-2xl bg-[#3E4758] border border-white/10 flex items-center justify-center shadow">
-                            <x-lucide-user-round class="w-7 h-7 text-[#F7F3E5]" />
+                            <x-lucide-megaphone class="w-7 h-7 text-[#F7F3E5]" />
                         </div>
                         <div class="space-y-1">
-                            <p class="font-semibold text-[14px]">1. Pilih Siswa</p>
+                            <p class="font-semibold text-[14px]">1. Buat Kampanye</p>
                             <p class="text-[#C3C8D9] leading-snug">
-                                Cari profil siswa yang ingin Anda bantu biaya sekolahnya.
+                                Organisasi atau individu membuat kampanye penggalangan dana.
                             </p>
                         </div>
                     </div>
                     <div class="flex flex-col items-center text-center gap-3">
                         <div class="w-14 h-14 rounded-2xl bg-[#3E4758] border border-white/10 flex items-center justify-center shadow">
-                            <x-lucide-credit-card class="w-7 h-7 text-[#F7F3E5]" />
+                            <x-lucide-heart class="w-7 h-7 text-[#F7F3E5]" />
                         </div>
                         <div class="space-y-1">
-                            <p class="font-semibold text-[14px]">2. Donasi Mudah</p>
+                            <p class="font-semibold text-[14px]">2. Beri Donasi</p>
                             <p class="text-[#C3C8D9] leading-snug">
-                                Transfer via QRIS atau Bank dengan aman dan instan.
+                                Donasi mudah via QRIS, E-Wallet, atau Virtual Account.
                             </p>
                         </div>
                     </div>
@@ -101,20 +101,20 @@
                             <x-lucide-shield-check class="w-7 h-7 text-[#F7F3E5]" />
                         </div>
                         <div class="space-y-1">
-                            <p class="font-semibold text-[14px]">3. Verifikasi</p>
+                            <p class="font-semibold text-[14px]">3. Terverifikasi</p>
                             <p class="text-[#C3C8D9] leading-snug">
-                                Kami memvalidasi data siswa dan penggunaan dana.
+                                Setiap proses diverifikasi admin untuk jaminan transparansi.
                             </p>
                         </div>
                     </div>
                     <div class="flex flex-col items-center text-center gap-3">
                         <div class="w-14 h-14 rounded-2xl bg-[#3E4758] border border-white/10 flex items-center justify-center shadow">
-                            <x-lucide-school class="w-7 h-7 text-[#F7F3E5]" />
+                            <x-lucide-wallet class="w-7 h-7 text-[#F7F3E5]" />
                         </div>
                         <div class="space-y-1">
-                            <p class="font-semibold text-[14px]">4. Penyaluran</p>
+                            <p class="font-semibold text-[14px]">4. Cairkan Dana</p>
                             <p class="text-[#C3C8D9] leading-snug">
-                                Dana disalurkan langsung ke sekolah/institusi terkait.
+                                Dana dicairkan setelah target tercapai dan disetujui admin.
                             </p>
                         </div>
                     </div>
