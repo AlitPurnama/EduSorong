@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust all proxies to detect HTTPS correctly when behind proxy/load balancer
+        $middleware->append(\App\Http\Middleware\TrustProxies::class);
+        
         // Exclude notification route from CSRF verification
         $middleware->validateCsrfTokens(except: [
             'notification/midtrans',
