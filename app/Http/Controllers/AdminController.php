@@ -83,8 +83,8 @@ class AdminController extends Controller
 
     public function approveWithdrawal(WithdrawalRequest $withdrawal)
     {
-        // Check if campaign has enough funds
-        if ($withdrawal->campaign->raised_amount < $withdrawal->requested_amount) {
+        // Check if campaign has enough funds (use remaining_balance, not raised_amount)
+        if ($withdrawal->campaign->remaining_balance < $withdrawal->requested_amount) {
             return redirect()->route('admin.withdrawals')
                 ->with('error', 'Dana kampanye tidak mencukupi untuk pencairan ini.');
         }
@@ -95,9 +95,6 @@ class AdminController extends Controller
                 'reviewed_by' => Auth::id(),
                 'reviewed_at' => now(),
             ]);
-
-            // Deduct from campaign raised amount
-            $withdrawal->campaign->decrement('raised_amount', $withdrawal->requested_amount);
         });
 
         return redirect()->route('admin.withdrawals')
