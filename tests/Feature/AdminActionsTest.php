@@ -60,7 +60,7 @@ class AdminActionsTest extends TestCase
         $wr->refresh();
         $campaign->refresh();
         $this->assertEquals('approved', $wr->status);
-        $this->assertEquals(50000, $campaign->raised_amount);
+        $this->assertEquals(100000, $campaign->raised_amount); // raised_amount tidak berubah setelah approval
 
         // Complete
         $this->post(route('admin.withdrawals.complete', $wr))
