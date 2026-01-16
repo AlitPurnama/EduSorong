@@ -1,0 +1,149 @@
+\clearpage
+\onecolumn
+
+\begin{landscape}
+\small
+\renewcommand{\arraystretch}{1.3}
+
+\begin{longtable}{|
+L{0.8cm}|
+L{2.2cm}|
+L{3.5cm}|
+L{4.5cm}|
+L{4.5cm}|
+L{1.6cm}|
+}
+\caption{Hasil Pengujian Black Box Testing Sistem}
+
+\label{tab:pengujian} \\
+
+\hline
+\textbf{No} &
+\textbf{Fitur} &
+\textbf{Skenario Pengujian} &
+\textbf{Hasil yang Diharapkan} &
+\textbf{Hasil Aktual} &
+\textbf{Status} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{No} &
+\textbf{Fitur} &
+\textbf{Skenario Pengujian} &
+\textbf{Hasil yang Diharapkan} &
+\textbf{Hasil Aktual} &
+\textbf{Status} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{|r|}{\textit{Dilanjutkan ke halaman berikutnya}} \\
+\hline
+\endfoot
+
+\hline
+\endlastfoot
+
+\multicolumn{6}{|l|}{\textbf{A. Autentikasi Pengguna}} \\
+\hline
+
+1 & Registrasi & Pengguna baru berhasil mendaftar dengan data valid &
+Akun baru tersimpan, email verifikasi dikirim, pengguna login otomatis dan diarahkan ke halaman utama &
+Sistem menyimpan akun baru, mengirim email verifikasi, membuat sesi login, dan mengarahkan ke beranda &
+Berhasil \\ \hline
+
+2 & Registrasi & Registrasi dengan email yang sudah terdaftar &
+Sistem menolak input dan menampilkan pesan bahwa email sudah digunakan &
+Validasi menolak email duplikat dan menampilkan pesan kesalahan pada field email &
+Berhasil \\ \hline
+
+3 & Login & Pengguna berhasil login dengan kredensial valid &
+Pengguna berhasil login, sesi dibuat, dan diarahkan ke halaman yang diminta atau beranda &
+Sistem mengautentikasi pengguna dan mengarahkan ke beranda tanpa error &
+Berhasil \\ \hline
+
+\multicolumn{6}{|l|}{\textbf{B. Manajemen Kampanye}} \\
+\hline
+
+4 & Buat Kampanye & Kampanye baru berhasil dibuat dengan data lengkap oleh user terverifikasi KTP &
+Data kampanye tersimpan, kampanye muncul di dashboard pengguna dan daftar kampanye publik &
+Kampanye tersimpan di basis data dan tampil di dashboard serta halaman \texttt{/kampanye} &
+Berhasil \\ \hline
+
+5 & Buat Kampanye & Validasi judul kampanye wajib diisi &
+Form menolak penyimpanan dan menampilkan pesan bahwa judul wajib diisi &
+Form menampilkan pesan error pada field judul dan kampanye tidak dibuat &
+Berhasil \\ \hline
+
+6 & Buat Kampanye & User tanpa verifikasi KTP mencoba membuat kampanye &
+Sistem menolak dan mengarahkan ke halaman verifikasi KTP &
+Pesan muncul untuk verifikasi KTP terlebih dahulu sebelum dapat membuat kampanye &
+Berhasil \\ \hline
+
+7 & Lihat Detail Kampanye & Detail kampanye tampil lengkap dengan semua informasi &
+Halaman menampilkan judul, deskripsi, progress donasi, pengelola, update, dan form donasi &
+Detail kampanye tampil lengkap sesuai data di basis data &
+Berhasil \\ \hline
+
+\multicolumn{6}{|l|}{\textbf{C. Donasi dan Pembayaran}} \\
+\hline
+
+8 & Donasi (QRIS) & Pembuatan transaksi donasi dengan metode QRIS &
+Sistem membuat record payment berstatus \textit{pending} dan menampilkan kode QRIS &
+Payment tercatat dengan status \textit{pending} dan halaman QRIS muncul untuk discan &
+Berhasil \\ \hline
+
+9 & Donasi (Virtual Account) & Pembuatan transaksi donasi dengan metode Virtual Account &
+Sistem membuat record payment dan menampilkan nomor Virtual Account &
+Payment tercatat dan nomor VA untuk transfer ditampilkan &
+Berhasil \\ \hline
+
+10 & Donasi & Validasi minimum nominal donasi &
+Sistem menolak donasi dan menampilkan pesan bahwa minimum donasi Rp 10.000 &
+Form menampilkan pesan kesalahan dan tidak membuat record payment baru &
+Berhasil \\ \hline
+
+11 & Notifikasi Pembayaran & Status pembayaran diperbarui dari Midtrans melalui webhook &
+Sistem memverifikasi signature, mengubah status payment menjadi \textit{settlement}, dan menambah dana terkumpul kampanye &
+Status payment berubah menjadi \textit{settlement} dan nilai \textit{raised\_amount} kampanye ikut bertambah &
+Berhasil \\ \hline
+
+\multicolumn{6}{|l|}{\textbf{D. Manajemen Penarikan Dana}} \\
+\hline
+
+12 & Request Penarikan & Request penarikan diizinkan saat kampanye mencapai ≥ 80\% target &
+Sistem membuat request penarikan berstatus \textit{pending} dan dapat dilihat oleh admin &
+Request penarikan berhasil dibuat dengan status \textit{pending} dan tersimpan di daftar penarikan &
+Berhasil \\ \hline
+
+13 & Request Penarikan & Request penarikan ditolak saat kampanye belum mencapai 80\% target &
+Sistem menolak pembuatan request penarikan dan menampilkan pesan bahwa syarat 80\% belum terpenuhi &
+Pengguna tidak dapat membuat request penarikan dan mendapatkan pesan penolakan sesuai aturan bisnis &
+Berhasil \\ \hline
+
+\multicolumn{6}{|l|}{\textbf{E. Fitur Admin}} \\
+\hline
+
+14 & Verifikasi KTP & Admin menyetujui verifikasi KTP pengguna &
+Status verifikasi KTP berubah menjadi \textit{approved} dan akun pengguna ditandai sebagai terverifikasi &
+Status verifikasi KTP menjadi \textit{approved} dan user dapat membuat kampanye &
+Berhasil \\ \hline
+
+15 & Approve Penarikan & Admin menyetujui request penarikan dana &
+Status request berubah menjadi \textit{approved} dan dana dikurangi dari kampanye &
+Status withdrawal berubah menjadi \textit{approved} dan \textit{raised\_amount} kampanye berkurang sesuai jumlah penarikan &
+Berhasil \\ \hline
+
+16 & Verifikasi Organisasi & Admin menyetujui verifikasi organisasi &
+Status verifikasi berubah menjadi \textit{approved} dan organisasi dapat digunakan pada kampanye &
+Status request menjadi \textit{approved} dan organisasi tampil sebagai terverifikasi di form kampanye &
+Berhasil \\ \hline
+
+\end{longtable}
+\end{landscape}
+
+Pengujian lanjutan terhadap skenario lain telah dilakukan pada tahap pengembangan, namun tidak ditampilkan secara rinci dalam artikel ini.
+
+\twocolumn
+\clearpage
