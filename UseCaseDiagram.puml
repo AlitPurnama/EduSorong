@@ -1,0 +1,182 @@
+@startuml Use Case Diagram - EduSorong
+
+!define RECTANGLE class
+
+left to right direction
+
+' Actors
+actor "Guest\n(Pengunjung)" as Guest
+actor "User\n(Pengguna Terdaftar)" as User
+actor "Admin" as Admin
+actor "Midtrans\nPayment Gateway" as Midtrans
+
+' System Boundary
+rectangle "EduSorong Platform" {
+  
+  ' Guest Use Cases
+  package "Public Features" {
+    usecase "Lihat Daftar Kampanye" as UC1
+    usecase "Lihat Detail Kampanye" as UC2
+    usecase "Lihat Profil User" as UC3
+    usecase "Donasi ke Kampanye" as UC4
+    usecase "Lihat Status Pembayaran" as UC5
+    usecase "Lihat Feed Donasi" as UC6
+  }
+  
+  ' Authentication Use Cases
+  package "Authentication" {
+    usecase "Registrasi" as UC7
+    usecase "Login" as UC8
+    usecase "Logout" as UC9
+  }
+  
+  ' User Management Use Cases
+  package "User Management" {
+    usecase "Lihat Dashboard" as UC10
+    usecase "Update Profil" as UC11
+    usecase "Ubah Password" as UC12
+    usecase "Submit Verifikasi KTP" as UC13
+    usecase "Lihat Status Verifikasi KTP" as UC14
+    usecase "Verifikasi Email" as UC38
+    usecase "Resend Email Verifikasi" as UC39
+    usecase "Ubah Email" as UC40
+    usecase "Hapus Akun" as UC41
+  }
+  
+  ' Campaign Management Use Cases
+  package "Campaign Management" {
+    usecase "Buat Kampanye" as UC15
+    usecase "Request Hapus Kampanye" as UC16
+    usecase "Hapus Kampanye" as UC17
+    usecase "Buat Update Kampanye" as UC18
+    usecase "Hapus Update Kampanye" as UC19
+  }
+  
+  ' Organization Verification Use Cases
+  package "Organization Verification" {
+    usecase "Request Verifikasi Organisasi" as UC20
+    usecase "Lihat Status Verifikasi Organisasi" as UC21
+  }
+  
+  ' Withdrawal Management Use Cases
+  package "Withdrawal Management" {
+    usecase "Request Penarikan Dana" as UC22
+    usecase "Upload Bukti Penarikan" as UC23
+    usecase "Hapus Bukti Penarikan" as UC24
+    usecase "Lihat Status Penarikan" as UC25
+  }
+  
+  ' Admin Use Cases
+  package "Admin Management" {
+    usecase "Lihat Dashboard Admin" as UC26
+    usecase "Approve Verifikasi Organisasi" as UC27
+    usecase "Reject Verifikasi Organisasi" as UC28
+    usecase "Approve Request Penarikan" as UC29
+    usecase "Reject Request Penarikan" as UC30
+    usecase "Complete Request Penarikan" as UC31
+    usecase "Approve Verifikasi KTP" as UC32
+    usecase "Reject Verifikasi KTP" as UC33
+    usecase "Verifikasi Bukti Penarikan" as UC34
+    usecase "Approve Request Hapus Kampanye" as UC35
+    usecase "Reject Request Hapus Kampanye" as UC36
+  }
+  
+  ' Payment Processing
+  package "Payment Processing" {
+    usecase "Terima Notifikasi Pembayaran" as UC37
+  }
+}
+
+' Guest Relationships
+Guest --> UC1
+Guest --> UC2
+Guest --> UC3
+Guest --> UC4
+Guest --> UC5
+Guest --> UC6
+Guest --> UC7
+Guest --> UC8
+Guest --> UC38
+
+' User Relationships
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC11
+User --> UC12
+User --> UC13
+User --> UC14
+User --> UC15
+User --> UC16
+User --> UC17
+User --> UC18
+User --> UC19
+User --> UC20
+User --> UC21
+User --> UC22
+User --> UC23
+User --> UC24
+User --> UC25
+User --> UC38
+User --> UC39
+User --> UC40
+User --> UC41
+
+' Admin Relationships
+Admin --> UC26
+Admin --> UC27
+Admin --> UC28
+Admin --> UC29
+Admin --> UC30
+Admin --> UC31
+Admin --> UC32
+Admin --> UC33
+Admin --> UC34
+Admin --> UC35
+Admin --> UC36
+
+' Midtrans Relationships
+Midtrans --> UC37
+
+' Extend Relationships
+UC4 ..> UC37 : <<extend>>
+
+' Include Relationships
+UC15 ..> UC20 : <<include>>\n(jika organisasi)
+UC22 ..> UC23 : <<include>>\n(jika diperlukan)
+
+' Generalization
+User <|-- Admin
+
+note right of UC4
+  Metode pembayaran:
+  - QRIS
+  - Virtual Account
+end note
+
+note right of UC22
+  Syarat: Kampanye
+  mencapai 80% target
+end note
+
+note right of UC15
+  User dapat membuat
+  kampanye perorangan
+  atau organisasi
+end note
+
+note right of UC38
+  Verifikasi email melalui
+  link yang dikirim saat
+  registrasi atau ubah email
+end note
+
+note right of UC41
+  Hapus akun memerlukan
+  konfirmasi melalui email
+  dan validasi tidak ada
+  kampanye aktif
+end note
+
+@enduml
+
