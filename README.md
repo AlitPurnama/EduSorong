@@ -99,7 +99,7 @@ MIDTRANS_SERVER_KEY=SB-Mid-server-xxxx...
 MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxx...
 MIDTRANS_IS_PRODUCTION=false
 ```
-> 💡 Lihat [EMAIL_SETUP.md](./EMAIL_SETUP.md) dan [MIDTRANS_INTEGRATION.md](./MIDTRANS_INTEGRATION.md) untuk panduan detail.
+> 💡 Lihat [EMAIL_SETUP.md](docs/guides/EMAIL_SETUP.md) dan [MIDTRANS_INTEGRATION.md](docs/guides/MIDTRANS_INTEGRATION.md) untuk panduan detail.
 
 ### 4. Setup Database & Key
 ```bash
@@ -154,9 +154,9 @@ php artisan test:email user@example.com
 
 ## 📚 Dokumentasi Terkait
 
-- **[MIDTRANS_INTEGRATION.md](./MIDTRANS_INTEGRATION.md)**: Detail implementasi payment gateway.
-- **[EMAIL_SETUP.md](./EMAIL_SETUP.md)**: Panduan konfigurasi SMTP Email.
-- **[USE_CASE_DOCUMENTATION.md](./USE_CASE_DOCUMENTATION.md)**: Dokumentasi alur penggunaan aplikasi.
+- **[MIDTRANS_INTEGRATION.md](docs/guides/MIDTRANS_INTEGRATION.md)**: Detail implementasi payment gateway.
+- **[EMAIL_SETUP.md](docs/guides/EMAIL_SETUP.md)**: Panduan konfigurasi SMTP Email.
+- **[USE_CASE_DOCUMENTATION.md](docs/guides/USE_CASE_DOCUMENTATION.md)**: Dokumentasi alur penggunaan aplikasi.
 
 ## 📄 Lisensi
 
